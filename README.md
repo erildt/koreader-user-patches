@@ -12,7 +12,7 @@ Displays reading progress in a visual "receipt" format showing book/chapter prog
 **Features:**
 - color backgrounds (random colors!)
 ![](https://github.com/erildt/koreader-user-patches/blob/patch-1/20251211_223334.jpg?raw=true)
-- ·condensed version](https://github.com/erildt/koreader-user-patches/blob/patch-1/2-book-receipt-condensed.lua)
+- [condensed version](https://github.com/erildt/koreader-user-patches/blob/patch-1/2-book-receipt-condensed.lua)
 ![](https://github.com/erildt/koreader-user-patches/blob/patch-1/20251212_011349.jpg?raw=true)
 
 - Can be triggered via shortcut ( "Book receipt" under "Reader")
