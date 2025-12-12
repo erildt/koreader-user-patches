@@ -525,7 +525,7 @@ local function buildReceipt(ui, state)
             text = itemname, 
 	    bold = false,
             width = widget_width,
-	    alignment = "center",
+	    alignment = "left",
             fgcolor = db_font_color,
 	    bgcolor = random_color,
         })
