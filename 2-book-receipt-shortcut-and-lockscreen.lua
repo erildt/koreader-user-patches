@@ -448,26 +448,36 @@ local function buildReceipt(ui, state)
 
     local current_time = datetime.secondsToHour(os.time(), G_reader_settings:isTrue("twelve_hour_clock")) or ""
 
-    local battery = ""
-    if Device:hasBattery() then
-        local power_dev = Device:getPowerDevice()
-        local batt_lvl = power_dev:getCapacity() or 0
-        local is_charging = power_dev:isCharging() or false
-        local batt_prefix = power_dev:getBatterySymbol(power_dev:isCharged(), is_charging, batt_lvl) or ""
-        battery = batt_prefix .. batt_lvl .. "%"
-    end
+--battery
 
     local widget_width = Screen:getWidth() / 2
     local db_font_color = Blitbuffer.COLOR_BLACK
     local db_font_color_lighter = Blitbuffer.COLOR_GRAY_3
     local db_font_color_lightest = Blitbuffer.COLOR_GRAY_9
-    local db_font_face = "NotoSans-Regular.ttf"
-    local db_font_face_italics = "NotoSans-Italic.ttf"
-    local db_font_size_big = 25
+    local db_color_blue = Blitbuffer.colorFromString("#00CCFF")
+    local db_color_purple = Blitbuffer.colorFromString("#BFA9F8")
+    local db_color_green = Blitbuffer.colorFromString("#A3D18E")
+    local db_color_yellow = Blitbuffer.colorFromString("#E4DC95")
+    local db_font_kr = "GamjaFlower-Regular.ttf"
+    local db_font_face = "Excalifont-Regular.ttf"
+    local db_font_face_italics = "GamjaFlower-Regular.ttf"
+    local db_font_size_big = 22
     local db_font_size_mid = 18
     local db_font_size_small = 15
     local db_padding = 20
     local db_padding_internal = 8
+
+    local SPAN_COLORS_RGB = {
+    Blitbuffer.colorFromName("red"),
+    Blitbuffer.colorFromName("orange"),
+    Blitbuffer.colorFromString("#E4DC95"),
+    Blitbuffer.colorFromName("green"),
+    Blitbuffer.colorFromName("olive"),
+    Blitbuffer.colorFromName("cyan"),
+    Blitbuffer.colorFromName("blue"),
+    Blitbuffer.colorFromName("purple"),
+}
+    local random_color = SPAN_COLORS_RGB[math.random(#SPAN_COLORS_RGB)]
 
     local message_text
     if Device.screen_saver_mode and G_reader_settings:isTrue("screensaver_show_message") then
@@ -501,7 +511,7 @@ local function buildReceipt(ui, state)
         if not options.hide_title then
             table.insert(elements, TextWidget:new{
                 text = typename,
-                face = Font:getFace("cfont", db_font_size_big),
+                face = Font:getFace(db_font_italics, db_font_size_big),
                 bold = true,
                 fgcolor = db_font_color,
                 padding = 0,
@@ -509,11 +519,14 @@ local function buildReceipt(ui, state)
             table.insert(elements, VerticalSpan:new{ width = db_padding_internal })
         end
 
-        table.insert(elements, TextBoxWidget:new{
-            face = Font:getFace(db_font_face, db_font_size_mid),
-            text = itemname,
+        table.insert(elements, TextBoxWidget:new{              --Chapter name
+            face = Font:getFace(db_font_kr, db_font_size_big),
+            text = itemname, 
+	    bold = false,
             width = widget_width,
+	    alignment = "left",
             fgcolor = db_font_color,
+	    bgcolor = random_color,
         })
 
         local progressbarwidth = widget_width
@@ -525,8 +538,9 @@ local function buildReceipt(ui, state)
             margin_h = 0,
             radius = 20,
             bordersize = 0,
-            bgcolor = db_font_color_lightest,
-            fillcolor = db_font_color,
+            bgcolor = Blitbuffer.COLOR_WHITE,
+            fillcolor = db_color_blue,
+	    bordercolor = Blitbuffer.COLOR_BLACK,
         }
 
         local page_progress = TextWidget:new{
@@ -598,28 +612,8 @@ local function buildReceipt(ui, state)
         return VerticalGroup:new(elements)
     end
 
-    local batt_pct_box = TextWidget:new{
-        text = battery,
-        face = Font:getFace("cfont", db_font_size_small),
-        bold = false,
-        fgcolor = db_font_color,
-        padding = 0,
-    }
+--battery
 
-    local glyph_clock = "⌚"
-    local time_box = TextWidget:new{
-        text = string.format("%s%s", glyph_clock, current_time),
-        face = Font:getFace("cfont", db_font_size_small),
-        bold = false,
-        fgcolor = db_font_color,
-        padding = 0,
-    }
-
-    local bottom_bar = HorizontalGroup:new{
-        batt_pct_box,
-        HorizontalSpan:new{ width = widget_width - time_box:getSize().w - batt_pct_box:getSize().w },
-        time_box,
-    }
 
     local bookboxtitle = string.format("%s - %s", book_title, book_author)
     local content_mode_setting = G_reader_settings:readSetting(BOOK_RECEIPT_CONTENT_MODE_SETTING) or CONTENT_MODE_BOOK_RECEIPT
@@ -708,23 +702,25 @@ local function buildReceipt(ui, state)
                     table.insert(meta_parts, page_label)
                 end
                 if #meta_parts > 0 then
-                    highlight_widgets = {
+                    highlight_widgets = {          --highlight
                         TextBoxWidget:new{
-                            face = Font:getFace("cfont", db_font_size_big),
+                            face = Font:getFace(db_font_kr, db_font_size_big), 
                             text = truncated_text,
                             width = widget_width,
                             fgcolor = db_font_color,
-                            bold = true,
-                            alignment = "center",
+			    bgcolor = random_color,
+                            bold = false,
+                            alignment = "left",
                         },
-                        VerticalSpan:new{ width = db_padding_internal },
+                        VerticalSpan:new{ width = db_padding_internal }, --Chapter, pg#
                         TextWidget:new{
                             text = string.format("(%s)", table.concat(meta_parts, ", ")),
-                            face = Font:getFace("cfont", db_font_size_small),
+                            face = Font:getFace(db_font_face_italics, db_font_size_small),
                             bold = false,
                             fgcolor = db_font_color_lighter,
+			    bgcolor = db_color_yellow,
                             padding = 0,
-                            align = "center",
+                            alignment = "center",
                         },
                     }
                 else
@@ -734,6 +730,7 @@ local function buildReceipt(ui, state)
                             text = truncated_text,
                             width = widget_width,
                             fgcolor = db_font_color,
+			    bgcolor = db_color_yellow,
                             bold = true,
                             alignment = "center",
                         },
@@ -776,6 +773,7 @@ local function buildReceipt(ui, state)
                 text = message_text,
                 width = widget_width,
                 fgcolor = db_font_color,
+		bgcolor = db_color_yellow,
                 bold = true,
                 alignment = "center",
             },
@@ -792,7 +790,7 @@ local function buildReceipt(ui, state)
         padding_right = db_padding,
         padding_bottom = db_padding,
         padding_left = db_padding,
-        background = Blitbuffer.COLOR_WHITE,
+        background = random_color,
         VerticalGroup:new(content_children),
     }
 
