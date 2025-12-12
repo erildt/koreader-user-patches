@@ -458,9 +458,9 @@ local function buildReceipt(ui, state)
     local db_color_purple = Blitbuffer.colorFromString("#BFA9F8")
     local db_color_green = Blitbuffer.colorFromString("#A3D18E")
     local db_color_yellow = Blitbuffer.colorFromString("#E4DC95")
-    local db_font_kr = "GamjaFlower-Regular.ttf"
-    local db_font_face = "Excalifont-Regular.ttf"
-    local db_font_face_italics = "GamjaFlower-Regular.ttf"
+    local db_font_kr = "NotoSans-Regular.ttf"
+    local db_font_face = "NotoSans-Regular.ttf"
+    local db_font_face_italics = "NotoSans-Italic.ttf"
     local db_font_size_big = 22
     local db_font_size_mid = 18
     local db_font_size_small = 15
@@ -470,7 +470,7 @@ local function buildReceipt(ui, state)
     local SPAN_COLORS_RGB = {
     Blitbuffer.colorFromName("red"),
     Blitbuffer.colorFromName("orange"),
-    Blitbuffer.colorFromString("#E4DC95"),
+    Blitbuffer.colorFromString("yellow"),
     Blitbuffer.colorFromName("green"),
     Blitbuffer.colorFromName("olive"),
     Blitbuffer.colorFromName("cyan"),
