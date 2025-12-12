@@ -10,6 +10,11 @@
 Displays reading progress in a visual "receipt" format showing book/chapter progress, estimated time remaining, and book cover.
 
 **Features:**
+- color backgrounds (random colors!)
+![](https://github.com/erildt/koreader-user-patches/blob/patch-1/20251211_223334.jpg?raw=true)
+- ·condensed version](https://github.com/erildt/koreader-user-patches/blob/patch-1/2-book-receipt-condensed.lua)
+![](https://github.com/erildt/koreader-user-patches/blob/patch-1/20251212_011349.jpg?raw=true)
+
 - Can be triggered via shortcut ( "Book receipt" under "Reader")
 - Can be set as screensaver/sleep screen
 - Offers selectable content modes: Book receipt, Highlight + progress, or Random (alternates between the two)
