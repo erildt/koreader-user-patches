@@ -470,7 +470,7 @@ local function buildReceipt(ui, state)
     local SPAN_COLORS_RGB = {
     Blitbuffer.colorFromName("red"),
     Blitbuffer.colorFromName("orange"),
-    Blitbuffer.colorFromString("yellow"),
+    Blitbuffer.colorFromName("yellow"),
     Blitbuffer.colorFromName("green"),
     Blitbuffer.colorFromName("olive"),
     Blitbuffer.colorFromName("cyan"),
